@@ -1,0 +1,84 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  position: relative;
+  font-size: 1.6rem;
+  font-family: 'Press Start 2P', cursive;
+  background: rgb(24, 23, 23);
+  color: rgb(243, 247, 27);
+}
+
+.title {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.button-group {
+  margin-top: 2rem;
+  display: flex;
+}
+
+.display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 350px;
+}
+
+.list,
+.button-group {
+  width: 350px;
+}
+.list {
+  list-style: none;
+  color: rgb(105, 105, 105);
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+.list__item {
+  border-bottom: 2px solid rgb(27, 27, 27);
+  padding: 1rem;
+  background: rgb(34, 34, 34);
+  text-transform: uppercase;
+}
+.list__item:nth-of-type(even) {
+  background: rgb(31, 30, 30);
+}
+
+.button {
+  display: block;
+  padding: 1.5rem 1rem;
+  text-decoration: none;
+  border: none;
+  background: #000;
+  color: rgb(243, 247, 27);
+  width: 33%;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease-in-out color;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.button:hover {
+  color: rgb(131, 133, 51);
+  background: rgb(26, 26, 26);
+}
