@@ -98,7 +98,7 @@ const renderResults = (items) => {
   items.forEach(renderElement);
 };
 
-// initi
+// initiState
 const initialApp = () => {
   fetcher(`${baseUrl + 'people'}`);
 };
