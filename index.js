@@ -1,5 +1,7 @@
-//baseUrl
+//InitialState
 const baseUrl = 'https://swapi.dev/api/';
+let nextUrl = '';
+let prevUrl = '';
 
 //fetcher
 const fetcher = async (url) => {
@@ -10,24 +12,65 @@ const fetcher = async (url) => {
       }
       return res.json();
     })
-    .then((data) => renderResults(data.results))
+    .then((data) => {
+      loader();
+      renderResults(data.results);
+      setPrevNextPage(data);
+    })
     .catch((error) => console.log('error'));
+};
+
+const nextPage = () => {
+  if (nextUrl !== null) {
+    fetcher(nextUrl);
+  }
+};
+
+const prevPage = () => {
+  if (prevUrl !== null) {
+    fetcher(prevUrl);
+  }
+};
+
+setPrevNextPage = ({ next, previous }) => {
+  nextUrl = next;
+  prevUrl = previous;
+  if (nextUrl == null) {
+    elements.btnNext.disabled = true;
+  } else {
+    elements.btnNext.disabled = false;
+  }
+  if (prevUrl == null) {
+    elements.btnPrev.disabled = true;
+  } else {
+    elements.btnPrev.disabled = false;
+  }
 };
 
 //  elements from dom
 const elements = {
   list: document.querySelector('#list'),
-  listItem: document.querySelector('#list-item'),
   btnPeople: document.querySelector(['button[data-set-people]']),
   btnPlanets: document.querySelector(['button[data-set-planets]']),
   btnStarships: document.querySelector(['button[data-set-starships]']),
+  btnNext: document.querySelector(['button[data-set-next]']),
+  btnPrev: document.querySelector(['button[data-set-prev]']),
 };
 
+//Spiner markup
+const loader = () => {
+  const markup = `<div class="loading"></div>`;
+  elements.list.insertAdjacentHTML('beforeend', markup);
+};
+
+//select category
 const selectCategory = (category) => {
   clearResults();
+  loader();
   fetcher(baseUrl + category);
 };
 
+//addEventListners
 elements.btnPeople.addEventListener('click', (e) => {
   selectCategory(e.target.value);
 });
@@ -37,7 +80,10 @@ elements.btnPlanets.addEventListener('click', (e) =>
 elements.btnStarships.addEventListener('click', (e) =>
   selectCategory(e.target.value)
 );
+elements.btnNext.addEventListener('click', (e) => nextPage());
+elements.btnPrev.addEventListener('click', (e) => prevPage());
 
+//clearResults
 const clearResults = () => (elements.list.innerHTML = '');
 
 // markup to render
@@ -46,6 +92,15 @@ const renderElement = (el) => {
   elements.list.insertAdjacentHTML('beforeend', markup);
 };
 
+//render results
 const renderResults = (items) => {
+  clearResults();
   items.forEach(renderElement);
 };
+
+// initi
+const initialApp = () => {
+  fetcher(`${baseUrl + 'people'}`);
+};
+
+initialApp();
